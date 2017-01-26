@@ -52,11 +52,11 @@
   (defun safety-optimize-quantity (env)
     ;; earlier than sbcl-1.2.12
     #+(#.(cl:if (cl:and (cl:string= (cl:lisp-implementation-type) "SBCL")
-			(uiop/utility:version< (cl:lisp-implementation-version) "1.2.12")) :and :or))
+			(uiop:version< (cl:lisp-implementation-version) "1.2.12")) :and :or))
     (cdr (assoc 'common-lisp:safety (sb-c::lexenv-policy env)))
     ;; sbcl-1.2.12 or later
     #+(#.(cl:if (cl:and (cl:string= (cl:lisp-implementation-type) "SBCL")
-			(uiop/utility:version< (cl:lisp-implementation-version) "1.2.12")) :or :and))
+			(uiop:version< (cl:lisp-implementation-version) "1.2.12")) :or :and))
     (cdr (assoc 'common-lisp:safety (sb-c::policy-to-decl-spec (sb-c::lexenv-policy env))))
     #+CLOZURE (ccl::safety-optimize-quantity env)
     #-(or SBCL CLOZURE) 1)
